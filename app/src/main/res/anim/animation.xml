@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="https://schemas.android.com/apk/res/android"
+    tools:ignore="NamespaceTypo">
+
+    <rotate
+        android:duration="4000"
+        android:fromDegrees="0"
+        android:toDegrees="720"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        ></rotate>
+
+</set>

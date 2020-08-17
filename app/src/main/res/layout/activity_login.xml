@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.Login.LoginActivity">
+
+    <LinearLayout
+        android:background="@android:color/holo_red_dark"
+        android:id="@+id/linear_no_internet"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:textColor="@android:color/white"
+            android:id="@+id/textView19"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="No Internet Connection"
+            android:textSize="14dp"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:background="@drawable/custom_background_login"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            app:srcCompat="@drawable/bplaz_logo" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:background="@android:color/white"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:drawablePadding="5dp"
+                    android:id="@+id/editText_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/custom_background_login_email"
+                    android:drawableLeft="@drawable/icon_email"
+                    android:hint="email@bplaz.com"
+                    android:inputType="textEmailAddress"
+                    android:paddingLeft="10dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/textView_invalid_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-8dp"
+                    android:text="Invalid Phone No"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:drawablePadding="5dp"
+                    android:drawableLeft="@drawable/icon_password"
+                    android:id="@+id/editText_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/custom_background_login_email"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:paddingLeft="10dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/textView_invalid_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="-8dp"
+                    android:text="Invalid Phone No"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:textSize="12dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:gravity="right"
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Forgot Password?" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_marginTop="10dp"
+                android:id="@+id/button_login"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="200dp"
+                android:layout_height="45dp"
+                android:background="@drawable/custom_button_login"
+                android:text="LOGIN"
+                android:textColor="@android:color/white"
+                android:textSize="13dp" />
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:id="@+id/textView_register"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Click Here For registration" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
