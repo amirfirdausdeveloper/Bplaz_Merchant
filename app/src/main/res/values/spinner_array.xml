@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spinner_state">
+        <item>Choose Bank</item>
+        <item>Affin Bank</item>
+        <item>AGRO Bank</item>
+        <item>Ambank</item>
+        <item>Alliance Bank</item>
+        <item>Bank Islam</item>
+        <item>Bank Muamalat</item>
+        <item>Bank Rakyat</item>
+        <item>BSN</item>
+        <item>CIMB</item>
+        <item>City Bank</item>
+        <item>Hong Leong Bank</item>
+        <item>HSBC Bank</item>
+        <item>Maybank</item>
+        <item>OCBC Bank</item>
+        <item>Public Bank</item>
+        <item>RHB Bank</item>
+        <item>Standard Chartered Bank</item>
+        <item>UOB Bank</item>
+    </string-array>
+</resources>
