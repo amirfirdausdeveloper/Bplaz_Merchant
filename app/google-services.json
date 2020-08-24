@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "493648952400",
+    "firebase_url": "https://bplaz-merchant.firebaseio.com",
+    "project_id": "bplaz-merchant",
+    "storage_bucket": "bplaz-merchant.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493648952400:android:23cb6ebc05bff88908e555",
+        "android_client_info": {
+          "package_name": "com.bplaz.merchant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493648952400-jnc730eiih2c159mhh6fumh3sq2b9g80.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bplaz.merchant",
+            "certificate_hash": "6dedb1406068f267ddcb2ca21432d6d9d595fc79"
+          }
+        },
+        {
+          "client_id": "493648952400-v9u6hh3n4dv9e0hfvdo3bgrb87n3sgcn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUvYhYloPptvCMSrQ0oD3wyBnQOwhTZP8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493648952400-v9u6hh3n4dv9e0hfvdo3bgrb87n3sgcn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -271,23 +271,39 @@
                     android:background="@android:color/white"
                     android:orientation="vertical">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/till_referel_code"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:textColorHint="#000000"
                         android:layout_height="match_parent"
-                        android:backgroundTint="#000000">
+                        android:layout_marginBottom="10dp"
+                        android:orientation="vertical">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_address"
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/till_address"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:hint="Address"
-                            android:focusable="false"
-                            android:inputType="textEmailAddress"
-                            android:textSize="17dp" />
+                            android:backgroundTint="#000000"
+                            android:textColorHint="#000000">
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                            <AutoCompleteTextView
+                                android:id="@+id/et_address"
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp"
+                                android:layout_centerHorizontal="true"
+                                android:hint="Choose a location"
+                                android:focusable="false"
+                                android:inputType="textWebEmailAddress"
+                                android:textSize="18dp" />
+
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/linear_editText"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"></RelativeLayout>
+
+                    </RelativeLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -299,22 +315,26 @@
                     android:background="@android:color/white"
                     android:orientation="vertical">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/till_reset_password"
+                    <TextView
+                        android:id="@+id/textView12"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:backgroundTint="#000000"
-                        android:textColorHint="#000000">
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:text="Self Assign"
+                        android:textColor="@android:color/black"
+                        android:textSize="14dp">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_reset_password"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:hint="Reset Password"
-                            android:inputType="textPassword"
-                            android:textSize="17dp" />
+                    </TextView>
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                        android:id="@+id/spinner_self_assign"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginLeft="3dp"
+                        android:background="@drawable/custom_spinner_state_background"
+                        android:entries="@array/spinner_self_assign"
+                        android:spinnerMode="dropdown" />
                 </LinearLayout>
 
 

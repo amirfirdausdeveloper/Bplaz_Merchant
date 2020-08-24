@@ -21,4 +21,21 @@
         <item>Standard Chartered Bank</item>
         <item>UOB Bank</item>
     </string-array>
+
+    <string-array name="spinner_self_assign">
+        <item>Choose</item>
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+
+    <string-array name="spinner_km">
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+        <item>150</item>
+        <item>180</item>
+        <item>210</item>
+        <item>240</item>
+    </string-array>
 </resources>

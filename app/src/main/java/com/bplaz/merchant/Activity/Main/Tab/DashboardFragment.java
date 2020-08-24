@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bplaz.merchant.Activity.Login.LoginActivity;
 import com.bplaz.merchant.Activity.Main.MainActivity;
+import com.bplaz.merchant.Activity.Sales.ToAccept;
 import com.bplaz.merchant.Connection.BasedURL;
 import com.bplaz.merchant.PreferanceManager.PreferenceManagerLogin;
 import com.bplaz.merchant.R;
@@ -53,6 +55,7 @@ public class DashboardFragment extends Fragment {
     String token;
     SwipeRefreshLayout swipe_refresh;
     CircleImageView profile_image;
+    LinearLayout linear_to_accept;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,6 +76,7 @@ public class DashboardFragment extends Fragment {
         textView_cancel = v.findViewById(R.id.textView_cancel);
         textView_to_accept = v.findViewById(R.id.textView_to_accept);
         textView_completed = v.findViewById(R.id.textView_completed);
+        linear_to_accept = v.findViewById(R.id.linear_to_accept);
 
 
         apiGetSalesDetails();
@@ -85,6 +89,15 @@ public class DashboardFragment extends Fragment {
                 apiGetSalesDetails();
                 apiGetProfile();
                 swipe_refresh.setRefreshing(false);
+            }
+        });
+
+        linear_to_accept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent next = new Intent(getActivity(), ToAccept.class);
+                startActivity(next);
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
         return v;
