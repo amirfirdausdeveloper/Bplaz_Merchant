@@ -292,8 +292,8 @@ public class ViewSales extends AppCompatActivity {
                                 JSONObject sale_partner_items_obj = sale_partner_items_arr.getJSONObject(i);
                                 JSONObject product_partner_obj = new JSONObject(sale_partner_items_obj.getString("product_partner"));
                                 textView_product.setText(product_partner_obj.getString("product_name"));
-                                textView_price.setText(sale_partner_items_obj.getString("total"));
                             }
+                            textView_price.setText(sales_obj.getString("total_amount"));
 
                             //VEHICLE INFO
                             JSONObject vehicle_obj = new JSONObject(sales_obj.getString("vehicle"));

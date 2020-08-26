@@ -26,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bplaz.merchant.Activity.Sales.AssignRider;
+import com.bplaz.merchant.Activity.Sales.CreateSales;
 import com.bplaz.merchant.Activity.Sales.ToAccept;
 import com.bplaz.merchant.Activity.Sales.ViewSales;
 import com.bplaz.merchant.Adapter.ToAcceptAdapter;
@@ -34,6 +35,7 @@ import com.bplaz.merchant.Connection.BasedURL;
 import com.bplaz.merchant.PreferanceManager.PreferenceManagerLogin;
 import com.bplaz.merchant.R;
 import com.bplaz.merchant.common.StandardProgressDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,6 +64,7 @@ public class SalesFragment extends Fragment {
     StandardProgressDialog dialogs;
     PreferenceManagerLogin session;
     String total_sales;
+    FloatingActionButton floatingActionButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,8 +80,19 @@ public class SalesFragment extends Fragment {
 
         rv = v.findViewById(R.id.rv);
         linear_no_product = v.findViewById(R.id.linear_no_product);
+        floatingActionButton = v.findViewById(R.id.floatingActionButton);
 
         dialogs.show();
+
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent next = new Intent(getActivity(), CreateSales.class);
+                startActivity(next);
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
 
         return v;
     }

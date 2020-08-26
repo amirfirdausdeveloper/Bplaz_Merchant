@@ -33,6 +33,7 @@ import com.bplaz.merchant.Connection.BasedURL;
 import com.bplaz.merchant.PreferanceManager.PreferenceManagerLogin;
 import com.bplaz.merchant.R;
 import com.bplaz.merchant.common.StandardProgressDialog;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.novoda.merlin.Connectable;
 import com.novoda.merlin.Disconnectable;
 import com.novoda.merlin.Merlin;
@@ -182,10 +183,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void apiLogin(){
+        String token =  FirebaseInstanceId.getInstance().getToken();
+        Log.d("token",token);
         final JSONObject jsonData = new JSONObject();
         try {
             jsonData.put("email",editText_email.getText().toString());
             jsonData.put("password",editText_password.getText().toString());
+            jsonData.put("notification_key",token);
 //            jsonData.put("notification_key","");
         } catch (JSONException e) {
             e.printStackTrace();

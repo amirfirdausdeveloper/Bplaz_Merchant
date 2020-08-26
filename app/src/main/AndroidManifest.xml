@@ -29,7 +29,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.Sales.AssignRider"></activity>
+        <activity android:name=".Activity.Sales.CreateSales"></activity>
+        <activity android:name=".Activity.Sales.AssignRider" />
         <activity android:name=".Activity.Sales.ViewSales" />
         <activity android:name=".Activity.Staff.AddStaff" />
         <activity android:name=".Activity.Sales.ToAccept" />
@@ -53,6 +54,8 @@
         <activity
             android:name=".maps_test"
             android:label="@string/title_activity_maps_test" />
+        <activity android:name=".Activity.Sales.MapsSearchActivityDelivery" />
+        <activity android:name=".Activity.Sales.MapsSearchActivityPickup" />
         <activity android:name=".Activity.Staff.MapsSearchActivityStaff" />
         <activity android:name=".Activity.Profile.MapsSearchActivity" />
         <activity android:name=".Activity.Profile.EditProfile" />
@@ -68,6 +71,25 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
+
+        <service
+            android:name="com.novoda.merlin.MerlinService"
+            android:exported="false" />
+        <service android:name=".FirebaseNotification.MyFirebaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".FirebaseNotification.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/notification" />
     </application>
 
 </manifest>
