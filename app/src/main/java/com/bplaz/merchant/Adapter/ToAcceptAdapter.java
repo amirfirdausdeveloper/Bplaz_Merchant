@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -86,6 +87,12 @@ public class ToAcceptAdapter extends RecyclerView.Adapter<ToAcceptAdapter.Produc
         getProduct(holder.textView_product,jobByMonthClass.getCategory_id());
         holder.textView_price.setText("RM "+jobByMonthClass.getPrice());
         getStatus(holder.textView_status,jobByMonthClass.getStatus());
+
+        if(jobByMonthClass.getSale_id().equals(null) ||jobByMonthClass.getSale_id().equals("null")){
+            holder.imageView_bplaz_order.setVisibility(View.GONE);
+        }else{
+            holder.imageView_bplaz_order.setVisibility(View.VISIBLE);
+        }
 
 
     }
@@ -176,7 +183,7 @@ public class ToAcceptAdapter extends RecyclerView.Adapter<ToAcceptAdapter.Produc
     class ProductViewHolder extends RecyclerView.ViewHolder{
 
         TextView textView_date,textView_job_id,textView_address,textView_product,textView_price,textView_status;
-
+        ImageView imageView_bplaz_order;
         public ProductViewHolder(View itemView) {
             super(itemView);
 
@@ -186,6 +193,7 @@ public class ToAcceptAdapter extends RecyclerView.Adapter<ToAcceptAdapter.Produc
             textView_product = itemView.findViewById(R.id.textView_product);
             textView_price = itemView.findViewById(R.id.textView_price);
             textView_status = itemView.findViewById(R.id.textView_status);
+            imageView_bplaz_order = itemView.findViewById(R.id.imageView_bplaz_order);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

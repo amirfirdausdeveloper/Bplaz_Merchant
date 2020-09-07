@@ -425,7 +425,7 @@ public class ProfileActivity extends AppCompatActivity {
                     public void onResponse(String response) {
                         dialog.dismiss();
                         Toast.makeText(getApplicationContext(),"Successfully update", Toast.LENGTH_SHORT).show();
-
+                        onBackPressed();
                     }
                 },
                 new com.android.volley.Response.ErrorListener() {

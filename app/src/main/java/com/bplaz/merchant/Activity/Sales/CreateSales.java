@@ -86,6 +86,12 @@ public class CreateSales extends AppCompatActivity {
 
 
         imageView_back = findViewById(R.id.imageView_back);
+        imageView_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         et_cust_name = findViewById(R.id.et_cust_name);
         et_cust_phone = findViewById(R.id.et_cust_phone);
         et_cust_email = findViewById(R.id.et_cust_email);
@@ -135,7 +141,7 @@ public class CreateSales extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
 
                 if(et_discount.getText().toString().equals("0")  || et_discount.getText().toString().equals("")){
-
+                    et_total_all_price.setText(et_price_product.getText().toString());
                 }else{
                     double discount_int = Double.parseDouble(et_discount.getText().toString());
                     double total_discount = discount_int / 100;
@@ -156,7 +162,7 @@ public class CreateSales extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
 
                 if(et_discount.getText().toString().equals("0") || et_discount.getText().toString().equals("")){
-
+                    et_total_all_price.setText(et_price_product.getText().toString());
                 }else{
                     double discount_int = Double.parseDouble(et_discount.getText().toString());
                     double total_discount = discount_int / 100;

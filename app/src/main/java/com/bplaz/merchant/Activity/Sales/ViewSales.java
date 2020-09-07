@@ -315,9 +315,9 @@ public class ViewSales extends AppCompatActivity {
                                     textView_payment.setTextColor(getColor(R.color.colorRed));
                                 }
                             }else {
-                                textView_payment.setText("UNPAID");
+                                textView_payment.setText("PAID");
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                    textView_payment.setTextColor(getColor(R.color.colorGreen));
+                                    textView_payment.setTextColor(getColor(R.color.colorGreen2));
                                 }
                             }
 

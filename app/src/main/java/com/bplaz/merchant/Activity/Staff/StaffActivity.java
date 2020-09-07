@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -13,6 +15,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -56,6 +60,8 @@ public class StaffActivity extends AppCompatActivity {
     StandardProgressDialog dialogs;
     LinearLayout linear_staff_no;
     ImageView imageView_back;
+    SearchView sc;
+    TextView textView_header;
 
 
     @Override
@@ -70,6 +76,7 @@ public class StaffActivity extends AppCompatActivity {
         token = user.get(PreferenceManagerLogin.KEY_TOKEN);
 
         imageView_back = findViewById(R.id.imageView_back);
+        textView_header = findViewById(R.id.textView_header);
         floatingActionButton = findViewById(R.id.floatingActionButton);
         rv = findViewById(R.id.rv);
         linear_staff_no = findViewById(R.id.linear_staff_no);
@@ -83,11 +90,49 @@ public class StaffActivity extends AppCompatActivity {
             }
         });
 
+
+        sc = findViewById(R.id.sc);
+
+        sc.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageView_back.setVisibility(View.GONE);
+                textView_header.setVisibility(View.GONE);
+            }
+        });
+        sc.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                imageView_back.setVisibility(View.VISIBLE);
+                textView_header.setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
+
         imageView_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
+        });
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        sc.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        sc.setMaxWidth(Integer.MAX_VALUE);
+        sc.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                adapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                adapter.getFilter().filter(query);
+                return false;
+            }
+
         });
     }
 

@@ -436,6 +436,7 @@ public class AddProduct extends AppCompatActivity {
 
 
                 headers.put("category",category_id);
+                headers.put("category_id",category_id);
                 headers.put("pricing[rsp_price]",et_price.getText().toString().trim());
                 if(checkBox_avaibility.isChecked()){
                     headers.put("availability", "1");
