@@ -41,8 +41,11 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.android.volley.Request.Method.GET;
@@ -68,6 +71,7 @@ public class CreateSales extends AppCompatActivity {
     LinearLayout linear_towing;
     public static String latitude ="0",longitude="0",latitude_to="0",longitude_to="0";
     String status_towing = "0";
+    String date_all;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +83,7 @@ public class CreateSales extends AppCompatActivity {
 
         HashMap<String, String> user = session.getUserDetails();
         token = user.get(PreferenceManagerLogin.KEY_TOKEN);
+
 
         imageView_back = findViewById(R.id.imageView_back);
         et_cust_name = findViewById(R.id.et_cust_name);
@@ -552,6 +557,8 @@ public class CreateSales extends AppCompatActivity {
     }
 
     private void createSalesAPI(){
+        date_all = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+
         final JSONObject jsonData = new JSONObject();
         try {
 
@@ -589,8 +596,8 @@ public class CreateSales extends AppCompatActivity {
             jsonData.put("total_amount",et_total_all_price.getText().toString());
 
 
-            jsonData.put("invoice_date",et_address.getText().toString());
-            jsonData.put("job_date",et_address.getText().toString());
+            jsonData.put("invoice_date",date_all);
+            jsonData.put("job_date",date_all);
 
             Log.d("JSON",jsonData.toString());
 

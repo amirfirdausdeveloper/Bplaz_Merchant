@@ -83,6 +83,34 @@ public class LoginActivity extends AppCompatActivity {
 
         editText_email.setText("bateriku@bateriku.com");
         editText_password.setText("123");
+
+        button_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(editText_email.getText().toString().equals("")){
+                    Toast.makeText(getApplicationContext(),"Please insert email",Toast.LENGTH_SHORT).show();
+                }else if(editText_password.getText().toString().equals("")){
+                    Toast.makeText(getApplicationContext(),"Please insert password",Toast.LENGTH_SHORT).show();
+                }else {
+                    dialog.show();
+                    apiLogin();
+                }
+            }
+        });
+
+        textView_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Uri webpage = Uri.parse("https://merchant.bplaz.com/register-partner");
+                    Intent myIntent = new Intent(Intent.ACTION_VIEW, webpage);
+                    startActivity(myIntent);
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(getApplicationContext(), "No application can handle this request. Please install a web browser or check your URL.",  Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     //BACK FUNCTION
@@ -100,7 +128,6 @@ public class LoginActivity extends AppCompatActivity {
 
         if(!isOnline()){
             noInternetConnectionDialog();
-            button_login.setOnClickListener(null);
             textView_register.setOnClickListener(null);
         }
 
@@ -121,7 +148,6 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         noInternetConnectionDialog();
-                        button_login.setOnClickListener(null);
                         textView_register.setOnClickListener(null);
                     }
                 });
@@ -153,33 +179,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void clicklogin(){
-        button_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(editText_email.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(),"Please insert email",Toast.LENGTH_SHORT).show();
-                }else if(editText_password.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(),"Please insert password",Toast.LENGTH_SHORT).show();
-                }else {
-                    dialog.show();
-                    apiLogin();
-                }
-            }
-        });
 
-        textView_register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Uri webpage = Uri.parse("https://merchant.bplaz.com/register-partner");
-                    Intent myIntent = new Intent(Intent.ACTION_VIEW, webpage);
-                    startActivity(myIntent);
-                } catch (ActivityNotFoundException e) {
-                    Toast.makeText(getApplicationContext(), "No application can handle this request. Please install a web browser or check your URL.",  Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 
     private void apiLogin(){
