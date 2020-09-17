@@ -35,11 +35,19 @@
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:layout_marginLeft="10dp"
                     android:id="@+id/imageView_bplaz_order"
-                    android:layout_width="20dp"
-                    android:layout_height="match_parent"
-                    app:srcCompat="@drawable/icon_bplaz_approve" />
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/icon_bplaz_approve" />
+
+                <ImageView
+                    android:id="@+id/imageView_etiqa"
+                    android:layout_width="55dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@drawable/icon_etiqa"
+                    android:scaleType="fitXY" />
             </LinearLayout>
 
             <TextView
@@ -63,6 +71,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <TextView
+                android:textStyle="bold"
+                android:id="@+id/textView_cust_nams"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorFOnt"
+                android:textSize="16dp"
+                android:text="Amir Firdaus Bin Samsudin"
+                />
 
             <TextView
                 android:id="@+id/textView_address"

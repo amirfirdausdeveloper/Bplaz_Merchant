@@ -36,7 +36,8 @@
                     android:id="@+id/sc"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:searchIcon="@drawable/ic_search_black_24dp" />
+                    android:searchIcon="@drawable/ic_search_black_24dp"
+                    android:visibility="gone" />
             </RelativeLayout>
 
         </LinearLayout>

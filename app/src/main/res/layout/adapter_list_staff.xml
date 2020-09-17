@@ -44,6 +44,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="+60123937044"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:id="@+id/textView_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
                     android:layout_marginBottom="15dp"
                     android:ellipsize="end"
                     android:maxLines="1"

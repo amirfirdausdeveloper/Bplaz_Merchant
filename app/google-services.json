@@ -8,6 +8,80 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:493648952400:android:4c1d56e1fc6c09c808e555",
+        "android_client_info": {
+          "package_name": "com.bateriku.bplazmerchant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493648952400-t5tn4hsftpkntetlnll62gjs0711ev1g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bateriku.bplazmerchant",
+            "certificate_hash": "6dedb1406068f267ddcb2ca21432d6d9d595fc79"
+          }
+        },
+        {
+          "client_id": "493648952400-v9u6hh3n4dv9e0hfvdo3bgrb87n3sgcn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUvYhYloPptvCMSrQ0oD3wyBnQOwhTZP8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493648952400-v9u6hh3n4dv9e0hfvdo3bgrb87n3sgcn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493648952400:android:55d215eefe308bc408e555",
+        "android_client_info": {
+          "package_name": "com.bateriku.riderbplaz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493648952400-hbj3sh3mirvaf7stn46jfs5fqqme1108.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bateriku.riderbplaz",
+            "certificate_hash": "05249cff8eec0c965c5be69a81c48a50f6962965"
+          }
+        },
+        {
+          "client_id": "493648952400-v9u6hh3n4dv9e0hfvdo3bgrb87n3sgcn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUvYhYloPptvCMSrQ0oD3wyBnQOwhTZP8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493648952400-v9u6hh3n4dv9e0hfvdo3bgrb87n3sgcn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:493648952400:android:23cb6ebc05bff88908e555",
         "android_client_info": {
           "package_name": "com.bplaz.merchant"

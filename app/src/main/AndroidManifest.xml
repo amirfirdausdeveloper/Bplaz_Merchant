@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.bplaz.merchant">
+    package="com.bateriku.bplazmerchant">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -29,11 +29,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Activity.Sales.CompletedSales"></activity>
         <activity android:name=".Activity.Sales.CreateSales"></activity>
         <activity android:name=".Activity.Sales.AssignRider" />
         <activity android:name=".Activity.Sales.ViewSales" />
         <activity android:name=".Activity.Staff.AddStaff" />
+        <activity android:name=".Activity.Staff.EditStaff" />
         <activity android:name=".Activity.Sales.ToAccept" />
+        <activity android:name=".Activity.Staff.MapsSearchEditStaff" />
         <activity android:name=".Activity.Product.AddProduct" />
         <activity android:name=".Activity.Product.EditProductDetails" />
         <!--
