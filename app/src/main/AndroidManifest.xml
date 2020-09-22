@@ -29,8 +29,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.Sales.CompletedSales"></activity>
-        <activity android:name=".Activity.Sales.CreateSales"></activity>
+        <activity android:name=".Activity.Staff.EditStafff"></activity>
+        <activity android:name=".Activity.Staff.AddStafff" />
+        <activity android:name=".Activity.Sales.CompletedSales" />
+        <activity android:name=".Activity.Sales.CreateSales" />
         <activity android:name=".Activity.Sales.AssignRider" />
         <activity android:name=".Activity.Sales.ViewSales" />
         <activity android:name=".Activity.Staff.AddStaff" />
@@ -91,7 +93,8 @@
             </intent-filter>
         </service>
 
-        <meta-data android:name="com.google.firebase.messaging.default_notification_icon"
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/notification" />
     </application>
 

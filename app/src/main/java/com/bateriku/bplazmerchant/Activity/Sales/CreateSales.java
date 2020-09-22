@@ -2,6 +2,8 @@ package com.bateriku.bplazmerchant.Activity.Sales;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,9 +13,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -39,6 +43,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -51,11 +56,11 @@ public class CreateSales extends AppCompatActivity {
 
     ImageView imageView_back;
     TextInputEditText et_cust_name,et_cust_phone,et_cust_email,et_plate_number,et_address_note,
-            et_price_product,et_discount,et_total_all_price;
+            et_price_product,et_discount,et_total_all_price,et_delivery_date;
     public static TextInputEditText et_address_too,et_address,et_distance;
     SearchableSpinner spinner_product,spinner_vehicle_model,spinner_manufacture;
     Button button_create;
-    RelativeLayout relative_address,relative_address_too;
+    RelativeLayout relative_address,relative_address_too,relative_delivery_date;
 
     PreferenceManagerLogin session;
     StandardProgressDialog dialog;
@@ -104,6 +109,8 @@ public class CreateSales extends AppCompatActivity {
         relative_address = findViewById(R.id.relative_address);
         et_address_too = findViewById(R.id.et_address_too);
         relative_address_too = findViewById(R.id.relative_address_too);
+        relative_delivery_date = findViewById(R.id.relative_delivery_date);
+        et_delivery_date = findViewById(R.id.et_delivery_date);
         linear_towing = findViewById(R.id.linear_towing);
         et_distance = findViewById(R.id.et_distance);
 
@@ -113,6 +120,42 @@ public class CreateSales extends AppCompatActivity {
                 Intent next = new Intent(getApplicationContext(),MapsSearchActivityPickup.class);
                 startActivity(next);
                 CreateSales.this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
+
+        relative_delivery_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar cldr = Calendar.getInstance();
+                int day = cldr.get(Calendar.DAY_OF_MONTH);
+                int month = cldr.get(Calendar.MONTH);
+                int year = cldr.get(Calendar.YEAR);
+                // date picker dialog
+                DatePickerDialog picker = new DatePickerDialog(CreateSales.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int years, int monthOfYears, int dayOfMonths) {
+
+                                // Get Current Time
+                                final Calendar c = Calendar.getInstance();
+                                int mHour = c.get(Calendar.HOUR_OF_DAY);
+                                int mMinute = c.get(Calendar.MINUTE);
+
+                                // Launch Time Picker Dialog
+                                TimePickerDialog timePickerDialog = new TimePickerDialog(CreateSales.this,
+                                        new TimePickerDialog.OnTimeSetListener() {
+
+                                            @Override
+                                            public void onTimeSet(TimePicker view, int hourOfDay,
+                                                                  int minute) {
+
+                                                et_delivery_date.setText(years + "-" + (monthOfYears + 1) + "-" + dayOfMonths+" "+hourOfDay + ":" + minute);
+                                            }
+                                        }, mHour, mMinute, false);
+                                timePickerDialog.show();
+                            }
+                        }, year, month, day);
+                picker.show();
             }
         });
 
@@ -195,6 +238,9 @@ public class CreateSales extends AppCompatActivity {
                 }else if (et_plate_number.getText().toString().equals("")){
                     et_plate_number.setError("Empty");
                     et_plate_number.requestFocus();
+                }else if (et_delivery_date.getText().toString().equals("")){
+                    et_delivery_date.setError("Empty");
+                    et_delivery_date.requestFocus();
                 }else if (et_address.getText().toString().equals("")){
                     Toast.makeText(getApplicationContext(),"Please insert address",Toast.LENGTH_SHORT).show();
                 }else if (et_address_note.getText().toString().equals("")){
@@ -599,7 +645,7 @@ public class CreateSales extends AppCompatActivity {
 
 
             jsonData.put("invoice_date",date_all);
-            jsonData.put("job_date",date_all);
+            jsonData.put("job_date",et_delivery_date.getText().toString());
 
             Log.d("JSON",jsonData.toString());
 

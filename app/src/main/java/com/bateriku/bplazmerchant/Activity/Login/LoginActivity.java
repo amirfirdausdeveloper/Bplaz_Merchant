@@ -22,9 +22,11 @@ import androidx.core.app.ActivityCompat;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.bateriku.bplazmerchant.R;
 import com.bateriku.bplazmerchant.Activity.Main.MainActivity;
@@ -35,6 +37,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.novoda.merlin.Connectable;
 import com.novoda.merlin.Disconnectable;
 import com.novoda.merlin.Merlin;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,6 +46,8 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.android.volley.Request.Method.GET;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -199,10 +205,7 @@ public class LoginActivity extends AppCompatActivity {
                         dialog.dismiss();
                         try {
                             JSONObject data = new JSONObject(jsonObject.getString("data"));
-                            session.createLoginSession(editText_email.getText().toString(),data.getString("token"));
-                            Intent next = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(next);
-                            LoginActivity.this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                            apiGetProfile(data.getString("token"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -242,4 +245,44 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    private void apiGetProfile(String token){
+        StringRequest stringRequest = new StringRequest(GET, BasedURL.ROOT_URL+"merchant_sales/profile.json",
+                new com.android.volley.Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONObject partner = new JSONObject(jsonObject.getString("partner"));
+
+                            session.createLoginSession(editText_email.getText().toString(),token,partner.getString("id"));
+                            Intent next = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(next);
+                            LoginActivity.this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        parseVolleyError(error);
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer "+token);
+                headers.put("Content-Type", "application/json");
+
+                return headers;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
+    }
 }

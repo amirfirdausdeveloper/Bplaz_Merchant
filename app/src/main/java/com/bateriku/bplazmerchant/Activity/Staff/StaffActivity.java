@@ -9,6 +9,8 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,6 +25,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bateriku.bplazmerchant.Activity.Sales.ViewSales;
 import com.bateriku.bplazmerchant.Adapter.RiderAdapter;
 import com.bateriku.bplazmerchant.Class.RiderClass;
 import com.bateriku.bplazmerchant.Connection.BasedURL;
@@ -78,9 +81,32 @@ public class StaffActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent next = new Intent(getApplicationContext(),AddStaff.class);
-                startActivity(next);
-                StaffActivity.this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+
+                new AlertDialog.Builder(StaffActivity.this)
+                        .setCancelable(true)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setMessage("Add Staff / Rider")
+                        .setPositiveButton("Add Staff", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                Intent next = new Intent(getApplicationContext(),AddStafff.class);
+                                startActivity(next);
+                                StaffActivity.this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+                            }
+                        })
+                        .setNegativeButton("Add Rider", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                Intent next = new Intent(getApplicationContext(),AddStaff.class);
+                                startActivity(next);
+                                StaffActivity.this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                            }
+                        })
+                        .show();
             }
         });
 
@@ -211,7 +237,9 @@ public class StaffActivity extends AppCompatActivity {
                                         @Override
                                         public void onClick(final RiderClass jobByMonthClass) {
                                             if (jobByMonthClass.getStaff_status().equals("STAFF")){
-
+                                                showPictureDialogStaff(jobByMonthClass.getName(),jobByMonthClass.getId()
+                                                        ,jobByMonthClass.getEmail(),jobByMonthClass.getTelephone_number(),jobByMonthClass.getDate_of_birth()
+                                                        ,jobByMonthClass.getCurrent_location());
                                             }else{
                                                 showPictureDialog(jobByMonthClass.getName(),jobByMonthClass.getId()
                                                         ,jobByMonthClass.getEmail(),jobByMonthClass.getTelephone_number(),jobByMonthClass.getDate_of_birth()
@@ -272,6 +300,34 @@ public class StaffActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent next = new Intent(getApplicationContext(),EditStaff.class);
+                        next.putExtra("intent_id",id);
+                        next.putExtra("intent_name",name);
+                        next.putExtra("intent_email",email);
+                        next.putExtra("intent_phone",phone);
+                        next.putExtra("intent_password","");
+                        next.putExtra("intent_dob",dob);
+                        next.putExtra("intent_location",location);
+                        startActivity(next);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    private void showPictureDialogStaff(final String name, final String id, final String email, final String phone, final String dob, final String location) {
+        new AlertDialog.Builder(StaffActivity.this)
+                .setCancelable(true)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setMessage("Are you sure want to edit "+name+" ?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent next = new Intent(getApplicationContext(),EditStafff.class);
                         next.putExtra("intent_id",id);
                         next.putExtra("intent_name",name);
                         next.putExtra("intent_email",email);
