@@ -51,7 +51,7 @@ public class ViewSales extends AppCompatActivity {
 
     TextView textView_job_id,textView_status,textView_cust_name,textView_cust_phone,textView_cust_email,textView_geo_location,textView_geo_location_to,
             textView_delivery_date,textView_product,textView_price,textView_model,textView_plate,textView_memo,textView_rider_name,
-            textView_rider_phone_no,textView_rider_status,textView_payment;
+            textView_rider_phone_no,textView_rider_status,textView_payment,textView_price_product,textView_discount;
 
     LinearLayout linear_cust_hide_show,linear_address_hide_show,linear_payment_hide_show,linear_vehicle_hide_show,linear_rider_hide_show;
 
@@ -91,12 +91,14 @@ public class ViewSales extends AppCompatActivity {
         textView_price = findViewById(R.id.textView_price);
         textView_model = findViewById(R.id.textView_model);
         textView_plate = findViewById(R.id.textView_plate);
+        textView_discount = findViewById(R.id.textView_discount);
 
         textView_memo = findViewById(R.id.textView_memo);
         textView_rider_name = findViewById(R.id.textView_rider_name);
         textView_rider_phone_no = findViewById(R.id.textView_rider_phone_no);
         textView_rider_status = findViewById(R.id.textView_rider_status);
         textView_payment = findViewById(R.id.textView_payment);
+        textView_price_product = findViewById(R.id.textView_price_product);
 
         linear_cust_hide_show = findViewById(R.id.linear_cust_hide_show);
         linear_address_hide_show = findViewById(R.id.linear_address_hide_show);
@@ -291,6 +293,9 @@ public class ViewSales extends AppCompatActivity {
                                 JSONObject product_partner_obj = new JSONObject(sale_partner_items_obj.getString("product_partner"));
                                 textView_product.setText(product_partner_obj.getString("product_name"));
                             }
+
+                            textView_discount.setText(sales_obj.getString("discount"));
+                            textView_price_product.setText(sales_obj.getString("subtotal"));
                             textView_price.setText(sales_obj.getString("total_amount"));
 
                             //VEHICLE INFO

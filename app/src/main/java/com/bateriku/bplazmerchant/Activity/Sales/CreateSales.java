@@ -57,7 +57,7 @@ public class CreateSales extends AppCompatActivity {
     ImageView imageView_back;
     TextInputEditText et_cust_name,et_cust_phone,et_cust_email,et_plate_number,et_address_note,
             et_price_product,et_discount,et_total_all_price,et_delivery_date;
-    public static TextInputEditText et_address_too,et_address,et_distance;
+    public static TextInputEditText et_address_too,et_address,et_distance,et_discount_rm;
     SearchableSpinner spinner_product,spinner_vehicle_model,spinner_manufacture;
     Button button_create;
     RelativeLayout relative_address,relative_address_too,relative_delivery_date;
@@ -73,6 +73,7 @@ public class CreateSales extends AppCompatActivity {
     public static String latitude ="0",longitude="0",latitude_to="0",longitude_to="0";
     String status_towing = "0";
     String date_all;
+    String come_from_where ="123";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +97,7 @@ public class CreateSales extends AppCompatActivity {
         et_cust_name = findViewById(R.id.et_cust_name);
         et_cust_phone = findViewById(R.id.et_cust_phone);
         et_cust_email = findViewById(R.id.et_cust_email);
+        et_discount_rm = findViewById(R.id.et_discount_rm);
         et_plate_number = findViewById(R.id.et_plate_number);
         et_address = findViewById(R.id.et_address);
         et_address_note = findViewById(R.id.et_address_note);
@@ -175,20 +177,86 @@ public class CreateSales extends AppCompatActivity {
 
         getManuFacturer();
 
+
+
+        TextWatcher yourTextWatcherRM = new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // your logic here
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // your logic here
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(et_discount_rm.getText().toString().equals("0") || et_discount_rm.getText().toString().equals("")){
+                    et_total_all_price.setText(et_price_product.getText().toString());
+                }else{
+                    if(et_price_product.getText().toString().equals("0") || et_price_product.getText().toString().equals("")){
+                        Toast.makeText(getApplicationContext(),"Please enter price for product",Toast.LENGTH_SHORT).show();
+                    }else{
+                        double price_total = Double.parseDouble(et_price_product.getText().toString()) - (Double.parseDouble(et_discount_rm.getText().toString()));
+                        NumberFormat nf = new DecimalFormat("##.##");
+                        et_total_all_price.setText(nf.format(price_total));
+                        double getPercentDiscount = (Double.parseDouble(et_price_product.getText().toString()) - price_total) / Double.parseDouble(et_price_product.getText().toString());
+                        double total_all = getPercentDiscount * 100 ;
+                        NumberFormat nfs = new DecimalFormat("##.##");
+                        et_discount.setText(nfs.format(total_all));
+                    }
+
+                }
+            }
+        };
+
+        TextWatcher yourTextWatcherPercent = new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // your logic here
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // your logic here
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(et_discount.getText().toString().equals("0") || et_discount.getText().toString().equals("")){
+                    et_total_all_price.setText(et_price_product.getText().toString());
+                }else{
+                    if(et_price_product.getText().toString().equals("0") || et_price_product.getText().toString().equals("")){
+                        Toast.makeText(getApplicationContext(),"Please enter price for product",Toast.LENGTH_SHORT).show();
+                    }else{
+                        double discount_int = Double.parseDouble(et_discount.getText().toString());
+                        double total_discount = discount_int / 100;
+                        double price_total = Double.parseDouble(et_price_product.getText().toString()) - (Double.parseDouble(et_price_product.getText().toString()) * total_discount);
+
+                        NumberFormat nf = new DecimalFormat("##.##");
+                        et_total_all_price.setText(nf.format(price_total));
+                        double getPercentDiscount = (Double.parseDouble(et_price_product.getText().toString()) * total_discount);
+                        NumberFormat nfs = new DecimalFormat("##.##");
+                        et_discount_rm.setText(nfs.format(getPercentDiscount));
+                    }
+
+
+
+                }
+            }
+        };
+
         et_price_product.addTextChangedListener(new TextWatcher() {
 
             public void afterTextChanged(Editable s) {
 
-                if(et_discount.getText().toString().equals("0")  || et_discount.getText().toString().equals("")){
-                    et_total_all_price.setText(et_price_product.getText().toString());
-                }else{
-                    double discount_int = Double.parseDouble(et_discount.getText().toString());
-                    double total_discount = discount_int / 100;
-                    double price_total = Double.parseDouble(et_price_product.getText().toString()) - (Double.parseDouble(et_price_product.getText().toString()) * total_discount);
-
-                    NumberFormat nf = new DecimalFormat("##.##");
-                    et_total_all_price.setText(nf.format(price_total));
-                }
+                et_discount_rm.setText("0");
+                et_discount.setText("0");
+                et_discount_rm.removeTextChangedListener(yourTextWatcherRM);
+                et_discount.removeTextChangedListener(yourTextWatcherPercent);
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -196,26 +264,109 @@ public class CreateSales extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
 
-        et_discount.addTextChangedListener(new TextWatcher() {
-
-            public void afterTextChanged(Editable s) {
-
-                if(et_discount.getText().toString().equals("0") || et_discount.getText().toString().equals("")){
-                    et_total_all_price.setText(et_price_product.getText().toString());
-                }else{
-                    double discount_int = Double.parseDouble(et_discount.getText().toString());
-                    double total_discount = discount_int / 100;
-                    double price_total = Double.parseDouble(et_price_product.getText().toString()) - (Double.parseDouble(et_price_product.getText().toString()) * total_discount);
-
-                    NumberFormat nf = new DecimalFormat("##.##");
-                    et_total_all_price.setText(nf.format(price_total));
+        et_discount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    et_discount_rm.removeTextChangedListener(yourTextWatcherRM);
+                    et_discount.addTextChangedListener(yourTextWatcherPercent);
                 }
             }
-
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
+
+        et_discount_rm.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    et_discount_rm.addTextChangedListener(yourTextWatcherRM);
+                    et_discount.removeTextChangedListener(yourTextWatcherPercent);
+                }
+            }
+        });
+//        et_discount.addTextChangedListener(new TextWatcher() {
+//            public void afterTextChanged(Editable s) {
+//
+//
+//            }
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if(come_from_where.equals("123")){
+//                    come_from_where = "discount percentage";
+//                    if(et_discount.getText().toString().equals("0") || et_discount.getText().toString().equals("")){
+//                        et_total_all_price.setText(et_price_product.getText().toString());
+//                    }else{
+//                        double discount_int = Double.parseDouble(et_discount.getText().toString());
+//                        double total_discount = discount_int / 100;
+//                        double price_total = Double.parseDouble(et_price_product.getText().toString()) - (Double.parseDouble(et_price_product.getText().toString()) * total_discount);
+//
+//                        NumberFormat nf = new DecimalFormat("##.##");
+//                        et_total_all_price.setText(nf.format(price_total));
+//                        double getPercentDiscount = (Double.parseDouble(et_price_product.getText().toString()) * total_discount);
+//                        NumberFormat nfs = new DecimalFormat("##.##");
+//                        et_discount_rm.setText(nfs.format(getPercentDiscount));
+//
+//                    }
+//                }
+//
+//                if(come_from_where.equals("discount percentage")){
+//                    if(et_discount.getText().toString().equals("0") || et_discount.getText().toString().equals("")){
+//                        et_total_all_price.setText(et_price_product.getText().toString());
+//                    }else{
+//                        double discount_int = Double.parseDouble(et_discount.getText().toString());
+//                        double total_discount = discount_int / 100;
+//                        double price_total = Double.parseDouble(et_price_product.getText().toString()) - (Double.parseDouble(et_price_product.getText().toString()) * total_discount);
+//
+//                        NumberFormat nf = new DecimalFormat("##.##");
+//                        et_total_all_price.setText(nf.format(price_total));
+//                        double getPercentDiscount = (Double.parseDouble(et_price_product.getText().toString()) * total_discount);
+//                        NumberFormat nfs = new DecimalFormat("##.##");
+//                        et_discount_rm.setText(nfs.format(getPercentDiscount));
+//                    }
+//                }
+//            }
+//        });
+//
+//        et_discount_rm.addTextChangedListener(new TextWatcher() {
+//            public void afterTextChanged(Editable s) {
+//
+//
+//            }
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if(come_from_where.equals("123")){
+//                    Log.d("MSUK","MSUK");
+//                    come_from_where = "discount RM";
+//
+//                    if(et_discount_rm.getText().toString().equals("0") || et_discount_rm.getText().toString().equals("")){
+//                        et_total_all_price.setText(et_price_product.getText().toString());
+//                    }else{
+//                        double price_total = Double.parseDouble(et_price_product.getText().toString()) - (Double.parseDouble(et_discount_rm.getText().toString()));
+//                        NumberFormat nf = new DecimalFormat("##.##");
+//                        et_total_all_price.setText(nf.format(price_total));
+//                        double getPercentDiscount = (Double.parseDouble(et_price_product.getText().toString()) - price_total) / Double.parseDouble(et_price_product.getText().toString());
+//                        double total_all = getPercentDiscount * 100 ;
+//                        NumberFormat nfs = new DecimalFormat("##.##");
+//                        et_discount.setText(nfs.format(total_all));
+//                    }
+//                }
+//
+//                if(come_from_where.equals("discount RM")){
+//                    if(et_discount_rm.getText().toString().equals("0") || et_discount_rm.getText().toString().equals("")){
+//                        et_total_all_price.setText(et_price_product.getText().toString());
+//                    }else{
+//                        double price_total = Double.parseDouble(et_price_product.getText().toString()) - (Double.parseDouble(et_discount_rm.getText().toString()));
+//                        NumberFormat nf = new DecimalFormat("##.##");
+//                        et_total_all_price.setText(nf.format(price_total));
+//                        double getPercentDiscount = (Double.parseDouble(et_price_product.getText().toString()) - price_total) / Double.parseDouble(et_price_product.getText().toString());
+//                        double total_all = getPercentDiscount * 100 ;
+//                        NumberFormat nfs = new DecimalFormat("##.##");
+//                        et_discount.setText(nfs.format(total_all));
+//                    }
+//                }
+//            }
+//        });
+
+
 
         button_create.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -226,9 +377,6 @@ public class CreateSales extends AppCompatActivity {
                 }else if (et_cust_phone.getText().toString().equals("")){
                     et_cust_phone.setError("Empty");
                     et_cust_phone.requestFocus();
-                }else if (et_cust_email.getText().toString().equals("")){
-                    et_cust_email.setError("Empty");
-                    et_cust_email.requestFocus();
                 }else if (spinner_manufacture.getSelectedItem().toString().equals("Choose manufacturer")){
                     Toast.makeText(getApplicationContext(),"Choose manufacturer",Toast.LENGTH_SHORT).show();
                     spinner_manufacture.requestFocus();
@@ -613,7 +761,10 @@ public class CreateSales extends AppCompatActivity {
             JSONObject customer = new JSONObject();
             customer.put("customer_name",et_cust_name.getText().toString());
             customer.put("telephone_number",et_cust_phone.getText().toString());
-            customer.put("email",et_cust_email.getText().toString());
+            if(!et_cust_email.getText().toString().equals("")){
+                customer.put("email",et_cust_email.getText().toString());
+            }
+
             jsonData.put("Customer_",customer);
 
 
@@ -622,6 +773,8 @@ public class CreateSales extends AppCompatActivity {
             product.put("product_partner_id",product_id);
             product.put("quantity","1");
             product.put("price_per_unit",et_price_product.getText().toString());
+            product.put("discount_flag","fixed");
+            product.put("discount",et_discount_rm.getText().toString());
             sales.put(product);
             jsonData.put("SalesProducts_",sales);
 
@@ -640,8 +793,10 @@ public class CreateSales extends AppCompatActivity {
             jsonData.put("address",et_address.getText().toString());
             jsonData.put("memo",et_address_note.getText().toString());
             jsonData.put("trade","1");
-            jsonData.put("discount",et_discount.getText().toString());
+            jsonData.put("discount",et_discount_rm.getText().toString());
+            jsonData.put("discount_flag","fixed");
             jsonData.put("total_amount",et_total_all_price.getText().toString());
+            jsonData.put("subtotal",et_price_product.getText().toString());
 
 
             jsonData.put("invoice_date",date_all);

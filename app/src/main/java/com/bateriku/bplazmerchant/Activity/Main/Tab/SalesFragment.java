@@ -114,6 +114,7 @@ public class SalesFragment extends Fragment {
                             JSONObject paging = new JSONObject(obj.getString("paging"));
 
                             total_sales = paging.getString("count");
+                            Log.d("TOTAL SALES",total_sales);
                             getListSales();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -171,7 +172,19 @@ public class SalesFragment extends Fragment {
                                     JSONArray sale_partner_items_arr = new JSONArray(obj_rider.getString("sale_partner_items"));
                                     for (int ii = 0; ii < sale_partner_items_arr.length(); ii++){
                                         JSONObject object = sale_partner_items_arr.getJSONObject(ii);
-                                        JSONObject object_customer = new JSONObject(obj_rider.getString("customer"));
+
+                                        String customer_names = "";
+                                        if(obj_rider.has("customer")){
+                                            if (obj_rider.getString("customer").equals("null") || obj_rider.getString("customer").equals(null) || obj_rider.getString("customer").equals("")){
+                                                customer_names = "n/a";
+                                            }else{
+                                                JSONObject object_customer = new JSONObject(obj_rider.getString("customer"));
+                                                customer_names = object_customer.getString("name");
+                                            }
+                                        }else{
+                                            customer_names = "n/a";
+                                        }
+
 
                                         //RIDER INFO
                                         if (obj_rider.getString("rider_job").equals("null") || obj_rider.getString("rider_job").equals(null) || obj_rider.getString("rider_job").equals("")){
@@ -201,7 +214,7 @@ public class SalesFragment extends Fragment {
                                                 rider_email,
                                                 obj_rider.getString("sale_id"),
                                                 object.getString("id"),
-                                                object_customer.getString("name")
+                                                customer_names
                                         ));
                                     }
 

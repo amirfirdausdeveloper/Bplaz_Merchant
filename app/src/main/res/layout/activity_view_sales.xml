@@ -395,8 +395,57 @@
                                 android:textSize="15dp" />
 
                             <TextView
+                                android:layout_marginLeft="10dp"
                                 android:textSize="14dp"
                                 android:id="@+id/textView_product"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textView_haha"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:text="Price Product / Service (RM)"
+                                android:textColor="@android:color/black"
+                                android:textSize="15dp" />
+
+                            <TextView
+                                android:layout_marginLeft="10dp"
+                                android:textSize="14dp"
+                                android:id="@+id/textView_price_product"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/textView_word_discount"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:text="Discount (RM)"
+                                android:textColor="@android:color/black"
+                                android:textSize="15dp" />
+
+                            <TextView
+                                android:layout_marginLeft="10dp"
+                                android:textSize="14dp"
+                                android:id="@+id/textView_discount"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1" />
@@ -418,6 +467,7 @@
                                 android:textSize="15dp" />
 
                             <TextView
+                                android:layout_marginLeft="10dp"
                                 android:textSize="14dp"
                                 android:id="@+id/textView_price"
                                 android:layout_width="match_parent"
