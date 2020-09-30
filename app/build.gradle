@@ -10,8 +10,8 @@ android {
         applicationId "com.bateriku.bplazmerchant"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 12
-        versionName "1.0.2"
+        versionCode 13
+        versionName "1.0.4"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
@@ -28,7 +28,34 @@ android {
         javaMaxHeapSize "4g"
     }
 
+    signingConfigs {
+        staging {
+            storeFile = new File("${System.properties['user.home']}/.android/debug.keystore")
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storePassword 'android'
+        }
+
+
+        release {
+            storeFile = new File("${System.properties['user.home']}/BplazMerchant/bateriku.keystore")
+            storePassword 'bateriku'
+            keyAlias 'bateriku'
+            keyPassword 'bateriku'
+        }
+    }
     buildTypes {
+        staging {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            lintOptions {
+                disable 'MissingTranslation'
+                checkReleaseBuilds false
+                abortOnError false
+            }
+            applicationIdSuffix ".staging"
+            signingConfig signingConfigs.staging
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

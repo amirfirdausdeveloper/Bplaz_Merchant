@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.bateriku.bplazmerchant">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -20,15 +21,17 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
+        android:name=".Connection.BasedURL"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_square"
-        android:label="@string/app_name"
+        android:label="@string/ROOT_APP_NAME_yaw"
         android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:replace="allowBackup, label">
         <activity android:name=".Activity.Staff.EditStafff"></activity>
         <activity android:name=".Activity.Staff.AddStafff" />
         <activity android:name=".Activity.Sales.CompletedSales" />

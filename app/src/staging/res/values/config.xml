@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ROOT_URL">https://dev.bplaz.com/api/v1/</string>
+    <string name="ROOT_URL_IMAGE">https://dev.merchant.bplaz.com/</string>
+    <string name="ROOT_APP_NAME_yaw">Staging Merchant</string>
+</resources>

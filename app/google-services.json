@@ -45,18 +45,18 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:493648952400:android:55d215eefe308bc408e555",
+        "mobilesdk_app_id": "1:493648952400:android:bd56626ba9cc3d7d08e555",
         "android_client_info": {
-          "package_name": "com.bateriku.riderbplaz"
+          "package_name": "com.bateriku.bplazmerchant.staging"
         }
       },
       "oauth_client": [
         {
-          "client_id": "493648952400-hbj3sh3mirvaf7stn46jfs5fqqme1108.apps.googleusercontent.com",
+          "client_id": "493648952400-ds3d33pn53dn3tchcg9amoclfjsqqobv.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.bateriku.riderbplaz",
-            "certificate_hash": "05249cff8eec0c965c5be69a81c48a50f6962965"
+            "package_name": "com.bateriku.bplazmerchant.staging",
+            "certificate_hash": "6dedb1406068f267ddcb2ca21432d6d9d595fc79"
           }
         },
         {
@@ -82,20 +82,12 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:493648952400:android:23cb6ebc05bff88908e555",
+        "mobilesdk_app_id": "1:493648952400:android:8ca6af5d6467b38708e555",
         "android_client_info": {
-          "package_name": "com.bplaz.merchant"
+          "package_name": "com.bateriku.bplazrider"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "493648952400-jnc730eiih2c159mhh6fumh3sq2b9g80.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.bplaz.merchant",
-            "certificate_hash": "6dedb1406068f267ddcb2ca21432d6d9d595fc79"
-          }
-        },
         {
           "client_id": "493648952400-v9u6hh3n4dv9e0hfvdo3bgrb87n3sgcn.apps.googleusercontent.com",
           "client_type": 3
