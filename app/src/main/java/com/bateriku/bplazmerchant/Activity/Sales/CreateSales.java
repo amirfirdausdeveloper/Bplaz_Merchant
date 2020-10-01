@@ -706,28 +706,19 @@ public class CreateSales extends AppCompatActivity {
                                     et_discount.setText("0");
                                     et_total_all_price.setText(pricing_partner_obj.getString("rsp_price"));
 
-                                    if(obj.getString("product_category").equals("null") || obj.getString("product_category").equals(null) ||
-                                            obj.getString("product_category").equals("")){
+                                    if(obj.getString("product_name").toLowerCase().contains("towing")){
+                                        linear_towing.setVisibility(View.VISIBLE);
+                                        status_towing = "1";
+                                    }else{
                                         linear_towing.setVisibility(View.GONE);
                                         status_towing = "0";
-                                    }else{
-                                        JSONObject product_category_obj = new JSONObject(obj.getString("product_category"));
-                                        if(product_category_obj.getString("category_name").toLowerCase().equals("towing")){
-                                            linear_towing.setVisibility(View.VISIBLE);
-                                            status_towing = "1";
-                                        }else {
-                                            linear_towing.setVisibility(View.GONE);
-                                            status_towing = "0";
-                                        }
-                                    }
 
+                                    }
                                 }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-
                     }
                 },
                 new com.android.volley.Response.ErrorListener() {

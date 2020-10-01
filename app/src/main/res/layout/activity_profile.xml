@@ -10,24 +10,6 @@
     android:focusableInTouchMode="true">
 
     <LinearLayout
-        android:id="@+id/linear_no_internet"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="@android:color/holo_red_dark"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/textView19"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="No Internet Connection"
-            android:textColor="@android:color/white"
-            android:textSize="14dp" />
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/linear_header"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -173,7 +155,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:background="@drawable/custom_spinner_state_background"
-                        android:entries="@array/spinner_state"
                         android:spinnerMode="dropdown" />
 
                 </LinearLayout>

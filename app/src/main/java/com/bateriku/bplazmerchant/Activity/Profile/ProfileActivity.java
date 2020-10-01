@@ -18,7 +18,10 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -46,12 +49,14 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,19 +71,18 @@ public class ProfileActivity extends AppCompatActivity {
     CircleImageView profile_image;
     TextInputEditText et_company_name,et_bank_acc_no,et_email,et_phone_no;
     public static AutoCompleteTextView et_address;
-    Merlin merlin;
     PreferenceManagerLogin session;
     StandardProgressDialog dialog;
-    LinearLayout linear_no_internet;
     String token;
     Button button_edit;
     SearchableSpinner spinner_bank,spinner_self_assign;
     RelativeLayout linear_editText;
     public static String latitude,longitude;
+    private ArrayList<String> product_list;
 
     private int GALLERY_PROFILE = 1, CAMERA_PROFILE = 2;
     Bitmap selected_image = null;
-
+    String bank_id = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,8 +98,6 @@ public class ProfileActivity extends AppCompatActivity {
                 new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
                 1);
 
-
-        merlin = new Merlin.Builder().withConnectableCallbacks().withDisconnectableCallbacks().build(getApplicationContext());
         session = new PreferenceManagerLogin(getApplicationContext());
         dialog = new StandardProgressDialog(this.getWindow().getContext());
 
@@ -110,7 +112,6 @@ public class ProfileActivity extends AppCompatActivity {
         et_email = findViewById(R.id.et_email);
         et_phone_no = findViewById(R.id.et_phone_no);
         et_address = findViewById(R.id.et_address);
-        linear_no_internet = findViewById(R.id.linear_no_internet);
         button_edit = findViewById(R.id.button_edit);
         spinner_bank = findViewById(R.id.spinner_bank);
         spinner_self_assign = findViewById(R.id.spinner_self_assign);
@@ -140,6 +141,15 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         apiGetProfile();
+
+
+        button_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.show();
+                updateAPI();
+            }
+        });
     }
 
     private void showPictureDialog() {
@@ -163,14 +173,6 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-        button_edit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.show();
-                updateAPI();
-            }
-        });
         pictureDialog.show();
     }
 
@@ -264,48 +266,122 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        merlin.bind();
 
-        if(!isOnline()){
-            noInternetConnectionDialog();
-        }
+    }
 
-        //IF INTERNET CONNECTION OK
-        merlin.registerConnectable(new Connectable() {
-            @Override
-            public void onConnect() {
-                linear_no_internet.setVisibility(View.GONE);
-            }
-        });
-
-        //IF INTERNET CONNECTION NOT OK
-        merlin.registerDisconnectable(new Disconnectable() {
-            @Override
-            public void onDisconnect() {
-                runOnUiThread(new Runnable() {
+    private void getListofBanks(String bank, String bank_id){
+        StringRequest stringRequest = new StringRequest(GET, BasedURL.ROOT_URL+"merchant_sales/list_bank.json",
+                new com.android.volley.Response.Listener<String>() {
                     @Override
-                    public void run() {
-                        noInternetConnectionDialog();
+                    public void onResponse(String response) {
+                        product_list = new ArrayList<String>();
+                        product_list.add("Choose Bank");
+                        String bank_name_from = "";
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            JSONArray arr = new JSONArray(object.getString("bank_list"));
+                            for (int i =0; i < arr.length(); i++){
+                                final JSONObject obj = arr.getJSONObject(i);
+                                product_list.add(obj.getString("name"));
+                                ArrayAdapter<String> adp1 = new ArrayAdapter<String>(getApplicationContext(),
+                                        android.R.layout.simple_list_item_1, product_list);
+                                adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spinner_bank.setAdapter(adp1);
+
+
+                                if(obj.getString("id").equals(bank_id)){
+                                    bank_name_from = obj.getString("name");
+                                }
+                            }
+
+                            spinner_bank.setSelection(getIndex(spinner_bank,bank_name_from));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        spinner_bank.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                if (!spinner_bank.getSelectedItem().toString().equals("Choose Bank")){
+                                    getBankByName(spinner_bank.getSelectedItem().toString());
+                                }
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> adapterView) {
+
+                            }
+                        });
+
+
                     }
-                });
+                },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer "+token);
+                headers.put("Content-Type", "application/json");
+
+                return headers;
             }
-        });
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
     }
 
-    @Override
-    protected void onPause() {
-        merlin.unbind();
-        super.onPause();
-    }
+    private void getBankByName(String toString) {
+        StringRequest stringRequest = new StringRequest(GET, BasedURL.ROOT_URL+"merchant_sales/list_bank.json",
+                new com.android.volley.Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            JSONArray arr = new JSONArray(object.getString("bank_list"));
+                            for (int i =0; i < arr.length(); i++){
+                                final JSONObject obj = arr.getJSONObject(i);
 
-    @Override
-    protected void onStop() {
-        merlin.unbind();
-        super.onStop();
-    }
 
-    private void noInternetConnectionDialog(){
-        linear_no_internet.setVisibility(View.VISIBLE);
+                                if(obj.getString("name").equals(toString)){
+                                    bank_id = obj.getString("id");
+                                }
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer "+token);
+                headers.put("Content-Type", "application/json");
+
+                return headers;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                30000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        requestQueue.add(stringRequest);
     }
 
     public boolean isOnline() {
@@ -330,7 +406,6 @@ public class ProfileActivity extends AppCompatActivity {
                             et_address.setText(partner.getString("address"));
                             et_email.setText(partner.getString("email"));
                             et_bank_acc_no.setText(partner.getString("bank_account_no"));
-                            spinner_bank.setSelection(getIndex(spinner_bank, partner.getString("bank")));
 
                             if(partner.getString("self_assign").equals("0")){
                                 spinner_self_assign.setSelection(getIndex(spinner_self_assign, "No"));
@@ -340,6 +415,8 @@ public class ProfileActivity extends AppCompatActivity {
 
                             latitude = partner.getString("latitude");
                             longitude = partner.getString("longitude");
+
+                            getListofBanks(partner.getString("bank"),partner.getString("bank_id"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -395,6 +472,9 @@ public class ProfileActivity extends AppCompatActivity {
             jsonData.put("company_name",et_company_name.getText().toString());
             jsonData.put("company_name", et_company_name.getText().toString());
             jsonData.put("bank", spinner_bank.getSelectedItem().toString());
+            if(!bank_id.equals("")){
+                jsonData.put("bank_id", bank_id);
+            }
             jsonData.put("address", et_address.getText().toString());
             jsonData.put("bank_account_no",et_bank_acc_no.getText().toString());
             if(spinner_self_assign.getSelectedItem().toString().equals("Yes")){
