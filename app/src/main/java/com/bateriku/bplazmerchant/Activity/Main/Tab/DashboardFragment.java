@@ -28,6 +28,7 @@ import com.bateriku.bplazmerchant.PreferanceManager.PreferenceManagerLogin;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -148,10 +149,7 @@ public class DashboardFragment extends Fragment {
                 return headers;
             }
         };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                30000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(stringRequest);
     }
@@ -168,6 +166,21 @@ public class DashboardFragment extends Fragment {
                             textView_phone.setText(partner.getString("telephone_number"));
                             Picasso.get().load(BasedURL.ROOT_URL_IMAGE + partner.getString("image_logo")).memoryPolicy(MemoryPolicy.NO_CACHE)
                                     .into(profile_image);
+
+                            JSONObject user = new JSONObject(partner.getString("user"));
+                            JSONArray roles_users = new JSONArray(user.getString("roles_users"));
+
+                            for (int i = 0; i < roles_users.length(); i++){
+                                JSONObject obj = roles_users.getJSONObject(i);
+                                JSONObject role = new JSONObject(obj.getString("role"));
+
+                                if(role.getString("name").toLowerCase().equals("rider")){
+                                    session.createLoginSession(user.getString("email"),token,partner.getString("id"),"rider",user.getString("id"));
+                                }else{
+                                    session.createLoginSession(user.getString("email"),token,partner.getString("id"),"not rider",user.getString("id"));
+                                }
+                            }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -188,23 +201,23 @@ public class DashboardFragment extends Fragment {
                 return headers;
             }
         };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                30000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
         requestQueue.add(stringRequest);
     }
 
     public void parseVolleyError(VolleyError error) {
         try {
-            String responseBody = new String(error.networkResponse.data, "utf-8");
-            JSONObject data = new JSONObject(responseBody);
-            Toast.makeText(getContext(),data.getString("message"),Toast.LENGTH_SHORT).show();
+            if (error.networkResponse != null) {
+                String responseBody = new String(error.networkResponse.data, "utf-8");
+                JSONObject data = new JSONObject(responseBody);
+                Toast.makeText(getContext(),data.getString("message"),Toast.LENGTH_SHORT).show();
 
-            Intent next = new Intent(getContext(), LoginActivity.class);
-            startActivity(next);
-            getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                Intent next = new Intent(getContext(), LoginActivity.class);
+                startActivity(next);
+                getActivity().overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+
+            }
 
         } catch (JSONException e) {
         } catch (UnsupportedEncodingException errorr) {

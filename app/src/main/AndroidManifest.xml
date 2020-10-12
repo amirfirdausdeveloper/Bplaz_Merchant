@@ -32,7 +32,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="allowBackup, label">
-        <activity android:name=".Activity.Staff.EditStafff"></activity>
+        <activity android:name=".Activity.CompletionReport.AddCompletionReport"></activity>
+        <activity android:name=".Activity.Sales.CompletionReportActivity" />
+        <activity android:name=".Activity.Staff.EditStafff" />
         <activity android:name=".Activity.Staff.AddStafff" />
         <activity android:name=".Activity.Sales.CompletedSales" />
         <activity android:name=".Activity.Sales.CreateSales" />

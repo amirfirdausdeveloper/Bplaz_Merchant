@@ -513,10 +513,13 @@ public class EditProductDetails extends AppCompatActivity {
 
     public void parseVolleyError(VolleyError error) {
         try {
-            String responseBody = new String(error.networkResponse.data, "utf-8");
-            JSONObject data = new JSONObject(responseBody);
-            Log.d("data",data.getString("message"));
-            Toast.makeText(getApplicationContext(),data.getString("message"),Toast.LENGTH_SHORT).show();
+            if (error.networkResponse != null) {
+                String responseBody = new String(error.networkResponse.data, "utf-8");
+                JSONObject data = new JSONObject(responseBody);
+                Log.d("data",data.getString("message"));
+                Toast.makeText(getApplicationContext(),data.getString("message"),Toast.LENGTH_SHORT).show();
+
+            }
 
         } catch (JSONException e) {
         } catch (UnsupportedEncodingException errorr) {

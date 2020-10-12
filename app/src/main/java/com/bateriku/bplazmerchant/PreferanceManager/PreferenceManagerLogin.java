@@ -19,6 +19,8 @@ public class PreferenceManagerLogin {
     public static final String KEY_EMAIL = "KEY_EMAIL";
     public static final String KEY_TOKEN = "KEY_TOKEN";
     public static final String KEY_ID = "KEY_ID";
+    public static final String KEY_ROLE = "HAVE_ROLE_ID";
+    public static final String USER_ID = "USER_ID";
 
 
     public PreferenceManagerLogin(Context context){
@@ -27,11 +29,13 @@ public class PreferenceManagerLogin {
         editor = pref.edit();
     }
 
-    public void createLoginSession(String email, String token,String id){
+    public void createLoginSession(String email, String token,String id,String role, String user_id){
         editor.putBoolean(IS_LOGIN, true);
         editor.putString(KEY_EMAIL, email);
         editor.putString(KEY_TOKEN, token);
         editor.putString(KEY_ID, id);
+        editor.putString(KEY_ROLE, role);
+        editor.putString(USER_ID, user_id);
         editor.commit();
     }
 
@@ -51,6 +55,8 @@ public class PreferenceManagerLogin {
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
         user.put(KEY_TOKEN, pref.getString(KEY_TOKEN, null));
         user.put(KEY_ID, pref.getString(KEY_ID, null));
+        user.put(KEY_ROLE, pref.getString(KEY_ROLE, null));
+        user.put(USER_ID, pref.getString(USER_ID, null));
         return user;
     }
 

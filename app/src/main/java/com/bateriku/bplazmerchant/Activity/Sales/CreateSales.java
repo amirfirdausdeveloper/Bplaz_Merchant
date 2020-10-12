@@ -257,6 +257,7 @@ public class CreateSales extends AppCompatActivity {
                 et_discount.setText("0");
                 et_discount_rm.removeTextChangedListener(yourTextWatcherRM);
                 et_discount.removeTextChangedListener(yourTextWatcherPercent);
+                et_total_all_price.setText(s.toString());
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -640,7 +641,11 @@ public class CreateSales extends AppCompatActivity {
                             JSONArray arr = new JSONArray(object.getString("products"));
                             for (int i =0; i < arr.length(); i++){
                                 final JSONObject obj = arr.getJSONObject(i);
-                                product_list.add(obj.getString("product_name"));
+                                if(obj.getString("brand").equals(null) || obj.getString("brand").equals("null")){
+                                    product_list.add(obj.getString("product_name"));
+                                }else{
+                                    product_list.add(obj.getString("product_name")+" - "+obj.getString("brand"));
+                                }
                                 ArrayAdapter<String> adp1 = new ArrayAdapter<String>(getApplicationContext(),
                                         android.R.layout.simple_list_item_1, product_list);
                                 adp1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -699,22 +704,43 @@ public class CreateSales extends AppCompatActivity {
                             JSONArray arr = new JSONArray(object.getString("products"));
                             for (int i =0; i < arr.length(); i++){
                                 final JSONObject obj = arr.getJSONObject(i);
-                                if(obj.getString("product_name").equals(product_name)){
-                                    product_id = obj.getString("id");
-                                    JSONObject pricing_partner_obj = new JSONObject(obj.getString("pricing_partner"));
-                                    et_price_product.setText(pricing_partner_obj.getString("rsp_price"));
-                                    et_discount.setText("0");
-                                    et_total_all_price.setText(pricing_partner_obj.getString("rsp_price"));
 
-                                    if(obj.getString("product_name").toLowerCase().contains("towing")){
-                                        linear_towing.setVisibility(View.VISIBLE);
-                                        status_towing = "1";
-                                    }else{
-                                        linear_towing.setVisibility(View.GONE);
-                                        status_towing = "0";
+                                if(obj.getString("brand").equals(null) || obj.getString("brand").equals("null")){
+                                    if(obj.getString("product_name").equals(product_name)){
+                                        product_id = obj.getString("id");
+                                        JSONObject pricing_partner_obj = new JSONObject(obj.getString("pricing_partner"));
+                                        et_price_product.setText(pricing_partner_obj.getString("rsp_price"));
+                                        et_discount.setText("0");
+                                        et_total_all_price.setText(pricing_partner_obj.getString("rsp_price"));
 
+                                        if(obj.getString("product_name").toLowerCase().contains("towing")){
+                                            linear_towing.setVisibility(View.VISIBLE);
+                                            status_towing = "1";
+                                        }else{
+                                            linear_towing.setVisibility(View.GONE);
+                                            status_towing = "0";
+
+                                        }
+                                    }
+                                }else{
+                                    if((obj.getString("product_name")+" - "+obj.getString("brand")).equals(product_name)){
+                                        product_id = obj.getString("id");
+                                        JSONObject pricing_partner_obj = new JSONObject(obj.getString("pricing_partner"));
+                                        et_price_product.setText(pricing_partner_obj.getString("rsp_price"));
+                                        et_discount.setText("0");
+                                        et_total_all_price.setText(pricing_partner_obj.getString("rsp_price"));
+
+                                        if(obj.getString("product_name").toLowerCase().contains("towing")){
+                                            linear_towing.setVisibility(View.VISIBLE);
+                                            status_towing = "1";
+                                        }else{
+                                            linear_towing.setVisibility(View.GONE);
+                                            status_towing = "0";
+
+                                        }
                                     }
                                 }
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -849,9 +875,11 @@ public class CreateSales extends AppCompatActivity {
 
     public void parseVolleyError(VolleyError error) {
         try {
-            String responseBody = new String(error.networkResponse.data, "utf-8");
-            JSONObject data = new JSONObject(responseBody);
-            Toast.makeText(getApplicationContext(),data.getString("message"),Toast.LENGTH_SHORT).show();
+            if (error.networkResponse != null) {
+                String responseBody = new String(error.networkResponse.data, "utf-8");
+                JSONObject data = new JSONObject(responseBody);
+                Toast.makeText(getApplicationContext(),data.getString("message"),Toast.LENGTH_SHORT).show();
+            }
 
         } catch (JSONException e) {
         } catch (UnsupportedEncodingException errorr) {

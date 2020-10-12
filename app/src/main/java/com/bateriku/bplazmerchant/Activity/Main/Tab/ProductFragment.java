@@ -304,19 +304,19 @@ public class ProductFragment extends Fragment {
                 return headers;
             }
         };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                30000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
     }
 
     public void parseVolleyError(VolleyError error) {
         try {
-            String responseBody = new String(error.networkResponse.data, "utf-8");
-            JSONObject data = new JSONObject(responseBody);
-            Toast.makeText(getContext(),data.getString("message"),Toast.LENGTH_SHORT).show();
+            if (error.networkResponse != null) {
+                String responseBody = new String(error.networkResponse.data, "utf-8");
+                JSONObject data = new JSONObject(responseBody);
+                Toast.makeText(getContext(),data.getString("message"),Toast.LENGTH_SHORT).show();
+            }
+
 
         } catch (JSONException e) {
         } catch (UnsupportedEncodingException errorr) {

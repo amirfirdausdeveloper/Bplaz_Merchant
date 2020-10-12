@@ -82,7 +82,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
 
         holder.textView_price.setText("RM "+jobByMonthClass.getRsp_price());
-        holder.textView_product.setText(jobByMonthClass.getProduct_name());
+
+        if(jobByMonthClass.getBrand().equals(null) || jobByMonthClass.getBrand().equals("null")){
+            holder.textView_product.setText(jobByMonthClass.getProduct_name());
+        }else{
+            holder.textView_product.setText(jobByMonthClass.getProduct_name()+" - "+jobByMonthClass.getBrand());
+        }
+
     }
 
     @Override

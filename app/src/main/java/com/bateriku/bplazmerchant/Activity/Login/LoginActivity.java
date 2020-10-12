@@ -40,6 +40,7 @@ import com.novoda.merlin.Merlin;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -236,10 +237,11 @@ public class LoginActivity extends AppCompatActivity {
 
     public void parseVolleyError(VolleyError error) {
         try {
-            String responseBody = new String(error.networkResponse.data, "utf-8");
-            JSONObject data = new JSONObject(responseBody);
-            Toast.makeText(getApplicationContext(),data.getString("message"),Toast.LENGTH_SHORT).show();
-
+            if (error.networkResponse != null) {
+                String responseBody = new String(error.networkResponse.data, "utf-8");
+                JSONObject data = new JSONObject(responseBody);
+                Toast.makeText(getApplicationContext(),data.getString("message"),Toast.LENGTH_SHORT).show();
+            }
         } catch (JSONException e) {
         } catch (UnsupportedEncodingException errorr) {
         }
@@ -254,7 +256,20 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             JSONObject partner = new JSONObject(jsonObject.getString("partner"));
 
-                            session.createLoginSession(editText_email.getText().toString(),token,partner.getString("id"));
+                            JSONObject user = new JSONObject(partner.getString("user"));
+                            JSONArray roles_users = new JSONArray(user.getString("roles_users"));
+
+                            for (int i = 0; i < roles_users.length(); i++){
+                                JSONObject obj = roles_users.getJSONObject(i);
+                                JSONObject role = new JSONObject(obj.getString("role"));
+
+                                if(role.getString("name").toLowerCase().equals("rider")){
+                                    session.createLoginSession(editText_email.getText().toString(),token,partner.getString("id"),"rider",user.getString("id"));
+                                }else{
+                                    session.createLoginSession(editText_email.getText().toString(),token,partner.getString("id"),"not rider",user.getString("id"));
+                                }
+                            }
+
                             Intent next = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(next);
                             LoginActivity.this.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

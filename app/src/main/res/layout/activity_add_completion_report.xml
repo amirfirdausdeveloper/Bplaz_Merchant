@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+
+    <LinearLayout
+        android:id="@+id/linear_header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+
+            <ImageView
+                android:id="@+id/imageView_back"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                app:srcCompat="@drawable/icon_back"
+                tools:ignore="VectorDrawableCompat" />
+
+            <TextView
+                android:id="@+id/textView_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="30dp"
+                android:gravity="center_vertical"
+                android:text="Add Completion Report"
+                android:textColor="@android:color/white"
+                android:textSize="16dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/linear_other"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@color/colorPrimary"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView15"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="REPORT"
+                            android:textColor="@android:color/white"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear_cust_hide_show"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@android:color/white"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/till_mileage"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:backgroundTint="#000000"
+                                android:textColorHint="#000000">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/et_cust_mileage"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:hint="Milage (KM)"
+                                    android:inputType="number"
+                                    android:textSize="17dp" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@android:color/white"
+                            android:orientation="vertical">
+
+                            <EditText
+                                android:id="@+id/editText"
+                                android:layout_width="match_parent"
+                                android:layout_height="100dp"
+                                android:background="@drawable/custom_background_edit_text"
+                                android:gravity="top"
+                                android:hint="Remark"
+                                android:inputType="textMultiLine"
+                                android:paddingLeft="7dp"
+                                android:paddingTop="5dp"
+                                android:textSize="13dp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_battery"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@color/colorPrimary"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView15"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="ALTERNATOR CHARGING"
+                            android:textColor="@android:color/white"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linear_cust_hide_show"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="8dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:background="@android:color/white"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/till_without_load"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:backgroundTint="#000000"
+                                android:textColorHint="#000000">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/et_without_load"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:hint="Without Load"
+                                    android:inputType="number"
+                                    android:textSize="17dp" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:background="@android:color/white"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/till_with_load"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:backgroundTint="#000000"
+                                android:textColorHint="#000000">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/et_with_load"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:hint="With Load"
+                                    android:inputType="number"
+                                    android:textSize="17dp" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@android:color/white"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/till_voltage"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:backgroundTint="#000000"
+                                android:textColorHint="#000000">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/et_voltage"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:hint="Voltage"
+                                    android:inputType="number"
+                                    android:textSize="17dp" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@android:color/white"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/till_mileage"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:backgroundTint="#000000"
+                                android:textColorHint="#000000">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/et_cust_mileage"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:hint="Milage (KM)"
+                                    android:inputType="number"
+                                    android:textSize="17dp" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@android:color/white"
+                            android:orientation="vertical">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/till_scrap"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:backgroundTint="#000000"
+                                android:textColorHint="#000000">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/et_scrap"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:hint="Scrap Type"
+                                    android:inputType="textEmailAddress"
+                                    android:textSize="17dp" />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@android:color/white"
+                            android:orientation="vertical">
+
+                            <EditText
+                                android:id="@+id/editText"
+                                android:layout_width="match_parent"
+                                android:layout_height="100dp"
+                                android:background="@drawable/custom_background_edit_text"
+                                android:gravity="top"
+                                android:hint="Remark"
+                                android:inputType="textMultiLine"
+                                android:paddingLeft="7dp"
+                                android:paddingTop="5dp"
+                                android:textSize="13dp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginBottom="20dp"
+                android:id="@+id/linear_picture"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@color/colorPrimary"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView15"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:text="PHOTO REPORT"
+                            android:textColor="@android:color/white"
+                            android:textSize="15dp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:id="@+id/linear_picture_2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/button_add_photo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/custom_button_login"
+                        android:text="Add Photo"
+                        android:textColor="@android:color/white" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:textColor="@android:color/white"
+                android:background="@color/colorPrimary"
+                android:id="@+id/button_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Submit Report" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

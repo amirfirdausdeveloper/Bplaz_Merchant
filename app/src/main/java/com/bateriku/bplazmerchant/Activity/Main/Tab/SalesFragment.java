@@ -23,6 +23,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.bateriku.bplazmerchant.Activity.CompletionReport.AddCompletionReport;
+import com.bateriku.bplazmerchant.Activity.Sales.CompletionReportActivity;
 import com.bateriku.bplazmerchant.R;
 import com.bateriku.bplazmerchant.Activity.Sales.AssignRider;
 import com.bateriku.bplazmerchant.Activity.Sales.CreateSales;
@@ -60,7 +62,7 @@ public class SalesFragment extends Fragment {
 
     StandardProgressDialog dialogs;
     PreferenceManagerLogin session;
-    String total_sales;
+    String total_sales,rider_status;
     FloatingActionButton floatingActionButton;
 
     @Override
@@ -74,6 +76,7 @@ public class SalesFragment extends Fragment {
 
         HashMap<String, String> user = session.getUserDetails();
         token = user.get(PreferenceManagerLogin.KEY_TOKEN);
+        rider_status = user.get(PreferenceManagerLogin.KEY_ROLE);
 
         rv = v.findViewById(R.id.rv);
         linear_no_product = v.findViewById(R.id.linear_no_product);
@@ -137,10 +140,7 @@ public class SalesFragment extends Fragment {
                 return headers;
             }
         };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                30000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
     }
@@ -224,6 +224,7 @@ public class SalesFragment extends Fragment {
                                         public void onClick(final ToAcceptClass jobByMonthClass) {
                                             Log.d("status",jobByMonthClass.getStatus());
 
+                                            //SALES SENDIRI
                                             if(jobByMonthClass.getSale_id().equals("") || jobByMonthClass.getSale_id().equals("null")){
 
                                                 if (jobByMonthClass.getStatus().equals("1")){
@@ -287,12 +288,12 @@ public class SalesFragment extends Fragment {
                                                                 }
                                                             });
                                                     pictureDialog.show();
-                                                }else{
+                                                }else if(jobByMonthClass.getStatus().equals("6")){
                                                     String[] pictureDialogItems;
                                                     String[] pictureDialogItemss = {
                                                             "View Sales",
-                                                            "Assign Rider",
-                                                            "Cancel Sales"};
+                                                            "Edit Sales",
+                                                            "Completion Report"};
                                                     pictureDialogItems = pictureDialogItemss;
 
                                                     androidx.appcompat.app.AlertDialog.Builder pictureDialog = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
@@ -310,39 +311,233 @@ public class SalesFragment extends Fragment {
                                                                             getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                                                                             break;
                                                                         case 1:
-                                                                            Intent nexts = new Intent(getContext(), AssignRider.class);
-                                                                            nexts.putExtra("id",jobByMonthClass.getId());
-                                                                            nexts.putExtra("latitude",jobByMonthClass.getLatitude());
-                                                                            nexts.putExtra("longitude",jobByMonthClass.getLongitude());
-                                                                            nexts.putExtra("sale_id",jobByMonthClass.getSale_id());
-                                                                            nexts.putExtra("sale_partner_item_id",jobByMonthClass.getSale_partner_item_id());
-                                                                            startActivity(nexts);
-                                                                            getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                                                                             break;
-
                                                                         case 2:
+
                                                                             new AlertDialog.Builder(getActivity())
                                                                                     .setCancelable(true)
                                                                                     .setIcon(android.R.drawable.ic_dialog_alert)
-                                                                                    .setMessage("Are you sure want to Cancel Sales?")
-                                                                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                                                    .setMessage("Choose report?")
+                                                                                    .setPositiveButton("View report", new DialogInterface.OnClickListener() {
                                                                                         @Override
                                                                                         public void onClick(DialogInterface dialog, int which) {
-                                                                                            cancelSalesFunction(jobByMonthClass.getId()+".json");
+                                                                                            rejectSalesAPI(jobByMonthClass.getId()+".json");
                                                                                         }
                                                                                     })
-                                                                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                                                    .setNegativeButton("Add report", new DialogInterface.OnClickListener() {
                                                                                         @Override
                                                                                         public void onClick(DialogInterface dialog, int which) {
-                                                                                            dialog.dismiss();
+                                                                                            Intent next = new Intent(getContext(), AddCompletionReport.class);
+                                                                                            next.putExtra("sale_partner_id",jobByMonthClass.getId()+".json");
+                                                                                            startActivity(next);
+                                                                                            getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                                                                                         }
                                                                                     })
                                                                                     .show();
+
                                                                             break;
                                                                     }
                                                                 }
                                                             });
                                                     pictureDialog.show();
+                                                }else{
+
+                                                    if(jobByMonthClass.getRider_name().equals("")){
+                                                        if(rider_status.equals("rider")){
+                                                            String[] pictureDialogItems;
+                                                            String[] pictureDialogItemss = {
+                                                                    "View Sales",
+                                                                    "Assign Rider",
+                                                                    "Cancel Sales",
+                                                                    "Complete Sales"};
+                                                            pictureDialogItems = pictureDialogItemss;
+
+                                                            androidx.appcompat.app.AlertDialog.Builder pictureDialog = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
+                                                            pictureDialog.setTitle("Select Action");
+                                                            pictureDialog.setItems(pictureDialogItems,
+                                                                    new android.content.DialogInterface.OnClickListener() {
+                                                                        @androidx.annotation.RequiresApi(api = Build.VERSION_CODES.M)
+                                                                        @Override
+                                                                        public void onClick(android.content.DialogInterface dialog, int which) {
+                                                                            switch (which) {
+                                                                                case 0:
+                                                                                    Intent next = new Intent(getContext(),ViewSales.class);
+                                                                                    next.putExtra("id",jobByMonthClass.getId()+".json");
+                                                                                    startActivity(next);
+                                                                                    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                                                                    break;
+                                                                                case 1:
+                                                                                    Intent nexts = new Intent(getContext(), AssignRider.class);
+                                                                                    nexts.putExtra("id",jobByMonthClass.getId());
+                                                                                    nexts.putExtra("latitude",jobByMonthClass.getLatitude());
+                                                                                    nexts.putExtra("longitude",jobByMonthClass.getLongitude());
+                                                                                    nexts.putExtra("sale_id",jobByMonthClass.getSale_id());
+                                                                                    nexts.putExtra("sale_partner_item_id",jobByMonthClass.getSale_partner_item_id());
+                                                                                    startActivity(nexts);
+                                                                                    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                                                                    break;
+
+                                                                                case 2:
+                                                                                    new AlertDialog.Builder(getActivity())
+                                                                                            .setCancelable(true)
+                                                                                            .setIcon(android.R.drawable.ic_dialog_alert)
+                                                                                            .setMessage("Are you sure want to Cancel Sales?")
+                                                                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                                                                @Override
+                                                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                                                    cancelSalesFunction(jobByMonthClass.getId()+".json");
+                                                                                                }
+                                                                                            })
+                                                                                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                                                                @Override
+                                                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                                                    dialog.dismiss();
+                                                                                                }
+                                                                                            })
+                                                                                            .show();
+                                                                                    break;
+
+                                                                                case 3:
+                                                                                    Toast.makeText(getActivity(),"Coming soon",Toast.LENGTH_SHORT).show();
+//                                                                                    new AlertDialog.Builder(getActivity())
+//                                                                                            .setCancelable(true)
+//                                                                                            .setIcon(android.R.drawable.ic_dialog_alert)
+//                                                                                            .setMessage("Are you sure want to Complete Sales?")
+//                                                                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                                                                                                @Override
+//                                                                                                public void onClick(DialogInterface dialog, int which) {
+//                                                                                                    dialogs.show();
+//                                                                                                    Toast.makeText(getActivity(),"Coming soon",Toast.LENGTH_SHORT).show();
+////                                                                                                    completeSales(jobByMonthClass.getId()+".json");
+//                                                                                                }
+//                                                                                            })
+//                                                                                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                                                                                                @Override
+//                                                                                                public void onClick(DialogInterface dialog, int which) {
+//                                                                                                   dialog.dismiss();
+//                                                                                                }
+//                                                                                            })
+//                                                                                            .show();
+                                                                                    break;
+                                                                            }
+                                                                        }
+                                                                    });
+                                                            pictureDialog.show();
+                                                        }else{
+                                                            String[] pictureDialogItems;
+                                                            String[] pictureDialogItemss = {
+                                                                    "View Sales",
+                                                                    "Assign Rider",
+                                                                    "Cancel Sales"};
+                                                            pictureDialogItems = pictureDialogItemss;
+
+                                                            androidx.appcompat.app.AlertDialog.Builder pictureDialog = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
+                                                            pictureDialog.setTitle("Select Action");
+                                                            pictureDialog.setItems(pictureDialogItems,
+                                                                    new android.content.DialogInterface.OnClickListener() {
+                                                                        @androidx.annotation.RequiresApi(api = Build.VERSION_CODES.M)
+                                                                        @Override
+                                                                        public void onClick(android.content.DialogInterface dialog, int which) {
+                                                                            switch (which) {
+                                                                                case 0:
+                                                                                    Intent next = new Intent(getContext(),ViewSales.class);
+                                                                                    next.putExtra("id",jobByMonthClass.getId()+".json");
+                                                                                    startActivity(next);
+                                                                                    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                                                                    break;
+                                                                                case 1:
+                                                                                    Intent nexts = new Intent(getContext(), AssignRider.class);
+                                                                                    nexts.putExtra("id",jobByMonthClass.getId());
+                                                                                    nexts.putExtra("latitude",jobByMonthClass.getLatitude());
+                                                                                    nexts.putExtra("longitude",jobByMonthClass.getLongitude());
+                                                                                    nexts.putExtra("sale_id",jobByMonthClass.getSale_id());
+                                                                                    nexts.putExtra("sale_partner_item_id",jobByMonthClass.getSale_partner_item_id());
+                                                                                    startActivity(nexts);
+                                                                                    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                                                                    break;
+
+                                                                                case 2:
+                                                                                    new AlertDialog.Builder(getActivity())
+                                                                                            .setCancelable(true)
+                                                                                            .setIcon(android.R.drawable.ic_dialog_alert)
+                                                                                            .setMessage("Are you sure want to Cancel Sales?")
+                                                                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                                                                @Override
+                                                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                                                    cancelSalesFunction(jobByMonthClass.getId()+".json");
+                                                                                                }
+                                                                                            })
+                                                                                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                                                                @Override
+                                                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                                                    dialog.dismiss();
+                                                                                                }
+                                                                                            })
+                                                                                            .show();
+                                                                                    break;
+                                                                            }
+                                                                        }
+                                                                    });
+                                                            pictureDialog.show();
+                                                        }
+                                                    }else{
+                                                        String[] pictureDialogItems;
+                                                        String[] pictureDialogItemss = {
+                                                                "View Sales",
+                                                                "Cancel Sales"};
+                                                        pictureDialogItems = pictureDialogItemss;
+
+                                                        androidx.appcompat.app.AlertDialog.Builder pictureDialog = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
+                                                        pictureDialog.setTitle("Select Action");
+                                                        pictureDialog.setItems(pictureDialogItems,
+                                                                new android.content.DialogInterface.OnClickListener() {
+                                                                    @androidx.annotation.RequiresApi(api = Build.VERSION_CODES.M)
+                                                                    @Override
+                                                                    public void onClick(android.content.DialogInterface dialog, int which) {
+                                                                        switch (which) {
+                                                                            case 0:
+                                                                                Intent next = new Intent(getContext(),ViewSales.class);
+                                                                                next.putExtra("id",jobByMonthClass.getId()+".json");
+                                                                                startActivity(next);
+                                                                                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                                                                break;
+                                                                            case 1:
+                                                                                Intent nexts = new Intent(getContext(), AssignRider.class);
+                                                                                nexts.putExtra("id",jobByMonthClass.getId());
+                                                                                nexts.putExtra("latitude",jobByMonthClass.getLatitude());
+                                                                                nexts.putExtra("longitude",jobByMonthClass.getLongitude());
+                                                                                nexts.putExtra("sale_id",jobByMonthClass.getSale_id());
+                                                                                nexts.putExtra("sale_partner_item_id",jobByMonthClass.getSale_partner_item_id());
+                                                                                startActivity(nexts);
+                                                                                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                                                                break;
+
+                                                                            case 2:
+                                                                                new AlertDialog.Builder(getActivity())
+                                                                                        .setCancelable(true)
+                                                                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                                                                        .setMessage("Are you sure want to Cancel Sales?")
+                                                                                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                                                            @Override
+                                                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                                                cancelSalesFunction(jobByMonthClass.getId()+".json");
+                                                                                            }
+                                                                                        })
+                                                                                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                                                            @Override
+                                                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                                                dialog.dismiss();
+                                                                                            }
+                                                                                        })
+                                                                                        .show();
+                                                                                break;
+                                                                        }
+                                                                    }
+                                                                });
+                                                        pictureDialog.show();
+                                                    }
+
+
                                                 }
 
                                             }else{
@@ -503,10 +698,46 @@ public class SalesFragment extends Fragment {
                 return headers;
             }
         };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
-                30000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(stringRequest);
+    }
+
+    private void completeSales(String id) {
+        StringRequest stringRequest = new StringRequest(PUT, BasedURL.ROOT_URL+"merchant_sales/complete_sales/"+id,
+                new com.android.volley.Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        dialogs.dismiss();
+                        Intent next = new Intent(getActivity(), CompletionReportActivity.class);
+                        next.putExtra("sale_partner_id",id);
+                        startActivity(next);
+                        getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
+                    }
+                },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        dialogs.dismiss();
+                        parseVolleyError(error);
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String>  headers = new HashMap<String, String>();
+                return headers;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer "+token);
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+                return headers;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
     }
@@ -544,17 +775,18 @@ public class SalesFragment extends Fragment {
                 return headers;
             }
         };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
     }
 
     public void parseVolleyError(VolleyError error) {
         try {
-            String responseBody = new String(error.networkResponse.data, "utf-8");
-            JSONObject data = new JSONObject(responseBody);
-            Toast.makeText(getContext(),data.getString("message"),Toast.LENGTH_SHORT).show();
-
+            if (error.networkResponse != null) {
+                String responseBody = new String(error.networkResponse.data, "utf-8");
+                JSONObject data = new JSONObject(responseBody);
+                Toast.makeText(getContext(),data.getString("message"),Toast.LENGTH_SHORT).show();
+            }
         } catch (JSONException e) {
         } catch (UnsupportedEncodingException errorr) {
         }
@@ -594,7 +826,7 @@ public class SalesFragment extends Fragment {
                 return headers;
             }
         };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
     }
@@ -632,7 +864,7 @@ public class SalesFragment extends Fragment {
                 return headers;
             }
         };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
     }
